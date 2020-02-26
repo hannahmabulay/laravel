@@ -1,0 +1,109 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Artist;
+use Illuminate\Http\Request;
+
+class ArtistController extends Controller
+{
+    /**
+     * Display a listing of the resource. (READ ALL)
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $allArtists = \App\Artist::all();
+        return view('artists.index', compact('allArtists'));
+    }
+
+    /**
+     * Show the form for creating a new resource. (INPUT FORM)
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('artists.create');
+    }
+
+    /**
+     * Store a newly created resource in storage. (CREATE)
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $newArtist = new Artist;
+        $newArtist->name = $request->name;
+        $newArtist->description = $request->description;
+
+        if($newArtist->save()) {
+            echo "ARtist " . $request->name ." saved!";
+        } else {
+            echo "ARtist " . $request->name ." NOT saved!";
+        }
+    }
+
+    /**
+     * Display the specified resource. (READ ITEM)
+     *
+     * @param  \App\Artist  $artist
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Artist $artist)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource. (EDIT FORM)
+     *
+     * @param  \App\Artist  $artist
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $oldArtist = Artist::find($id);
+        return view('artists.edit', compact('oldArtist'));
+
+    }
+
+    /**
+     * Update the specified resource in storage. (UPDATE)
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Artist  $artist
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $oldArtist = Artist::find($id);
+        $oldArtist->name = $request->name;
+        $oldArtist->description = $request->description;
+
+        if($oldArtist->update()) {
+            return redirect('/artist');
+        } else {
+
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage. (DELETE)
+     *
+     * @param  \App\Artist  $artist
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        if (\App\Artist::findOrFail($id)->delete())
+            echo "$id deleted successfully";
+        else
+            echo "There was an error.";
+
+        return redirect('/artists');
+    }
+}

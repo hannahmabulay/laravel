@@ -1,0 +1,2 @@
+Installing Bulma   -->   https://www.npmjs.com/package/bulma
+Installing Font Awesome --> https://fontawesome.com/how-to-use/on-the-web/setup/using-package-managers
